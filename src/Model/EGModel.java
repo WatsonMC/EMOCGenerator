@@ -7,6 +7,8 @@ public class EGModel {
 	private static String name = "Malcolm Watson";
 	private static String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 	
+	public static final String FP_APPLICATION = "C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\EMOC Application form.docx";
+
 	
 	
 	

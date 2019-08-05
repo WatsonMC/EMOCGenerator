@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import Controller.TargetDirController;
 import Model.EGModel;
 
 public class EGView {
@@ -23,9 +24,26 @@ public class EGView {
 	private static JTextField txtDate;
 	private static JTextField txtWorkArea;
 	private static JTextField txtEmoc;
+	
+	public static String getEmoc() {
+		return txtEmoc.getText();
+	}
+
+
+
+	public static void setTxtEmoc(JTextField txtEmoc) {
+		EGView.txtEmoc = txtEmoc;
+	}
 	private static JTextField txtTgtDir;
 	private static JFrame frame_1;
+	
+	private static final String TEXT_TARGET_DIR = "/Target/Directory/Here";
 
+	public static void setDirText(String newText) {
+		txtTgtDir.setText(newText); 
+	}
+	
+	
 	
 	private static void createConfirmationPanel(JPanel panel) {
 		frame_1.getContentPane().add(panel, BorderLayout.SOUTH);
@@ -126,11 +144,13 @@ public class EGView {
 		
 		
 		
-		txtTgtDir = new JTextField("/Target/Directory/Here");
+		txtTgtDir = new JTextField(TEXT_TARGET_DIR);
 		selectDirectoryPanel.add(txtTgtDir, BorderLayout.CENTER);
 		
 		JButton btnSelectDirectory = new JButton("Select Directory");
 		selectDirectoryPanel.add(btnSelectDirectory, BorderLayout.LINE_END);
+		btnSelectDirectory.addActionListener(new TargetDirController());
+		
 	}
 	
 	//@wbp.parser.entryPoint
