@@ -22,25 +22,18 @@ public class EGController {
 		 *  Right Click to perform
 		 *  
 		 */
-	public static final List<String> SOURCE_DOCS = Arrays.asList(new String[]{
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\EMOC Application form.docx",
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Document Template.docx",
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Document Template.docx"
-	});
+	private static EGView view;
 	
 	public static void createNewFiles() {
-		String EMOCNumber = EGView.getEmoc();
+		String EMOCNumber = view.getEmoc();
 		
 		//TODO Write tests for prependEmocNo,
 		//Write tests for create new files
-		//
-		
 	}
 	
-	public static String prependEmocNoToFilePath(String oldPath, String EMOC) {
-		String[] files = oldPath.split("\\\\");
-		String newPath;
-		files[files.length-1] =EMOC + " " + files[files.length-1];
-		return String.join("\\\\", files);
+	public static void loadView(EGView view) {
+		EGController.view= view;
 	}
+	
+
 }
