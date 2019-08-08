@@ -13,47 +13,86 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Document;
 
+import Controller.ConfirmationController;
 import Controller.TargetDirController;
+import Controller.UserInputListener;
 import Model.EGModel;
 
 public class EGView {
 
-	private static JTextField txtName;
-	private static JTextField txtDate;
-	private static JTextField txtWorkArea;
-	private static JTextField txtEmoc;
+	private EGModel model;
 	
-	public static String getEmoc() {
-		return txtEmoc.getText();
-	}
-
-
-
-	public static void setTxtEmoc(JTextField txtEmoc) {
-		EGView.txtEmoc = txtEmoc;
-	}
-	private static JTextField txtTgtDir;
-	private static JFrame frame_1;
+	private  JTextField txtName;
+	private  JTextField txtDate;
+	private  JTextField txtWorkArea;
+	private  JTextField txtEmoc;
+	private  JTextField txtTgtDir;
+	private  JFrame frame_1;
 	
 	private static final String TEXT_TARGET_DIR = "/Target/Directory/Here";
+	
+	public  String getEmoc() {
+		return txtEmoc.getText();
+	}
+	
+	public  String getTgtDir() {
+		return txtTgtDir.getText();
+	}
 
-	public static void setDirText(String newText) {
+	public void setTxtEmoc(String txtEmoc) {
+		this.txtEmoc.setText(txtEmoc); 
+	}
+
+
+	public  void setDirText(String newText) {
 		txtTgtDir.setText(newText); 
 	}
 	
+	public EGView(EGModel model) {
+		this.model = model;
+	}
+	
+	public void loadModel(EGModel model) {
+		this.model = model;
+	}
+	
+	public boolean updateField(Document comp) {
+		if(comp.equals(txtName.getDocument())) {
+			model.setName(txtName.getText());
+			return true;
+		}
+		if(comp.equals(txtDate.getDocument())) {
+			model.setDate((txtDate.getText()));
+			return true;
+		}
+		if(comp.equals(txtEmoc.getDocument())) {
+			model.setEmoc(txtEmoc.getText());
+			return true;
+		}
+		if(comp.equals(txtWorkArea.getDocument())) {
+			model.setWA(txtWorkArea.getText());
+//			System.out.println("text changed: " + txtWorkArea.getText());
+			return true;
+		}
+		return false;
+	}
 	
 	
-	private static void createConfirmationPanel(JPanel panel) {
+	
+	private void createConfirmationPanel(JPanel panel) {
 		frame_1.getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setBorder(new EmptyBorder(0,10,5,10));
 		JButton btnConfirm = new JButton("Confirm selections, create documents");
+		btnConfirm.addActionListener(new ConfirmationController());
 		panel.setLayout(new BorderLayout());
 		panel.add(btnConfirm,BorderLayout.CENTER);
 	}
 	
-	private static void createUserInputPanel(JPanel userInputPanel){
+	private void createUserInputPanel(JPanel userInputPanel){
 		userInputPanel.setForeground(Color.LIGHT_GRAY);
 		GridBagLayout gl_userInputPanel = new GridBagLayout();
 		
@@ -84,7 +123,7 @@ public class EGView {
 		
 		
 		
-		txtName = new JTextField(EGModel.getName());
+		txtName = new JTextField(model.getName());
 		GridBagConstraints cName = new GridBagConstraints();
 		cName.insets = new Insets(0, 20, 0, 0);
 		cName.gridx = 0;
@@ -102,7 +141,7 @@ public class EGView {
 		cLblName.weightx = 0.25;
 		userInputPanel.add(lblName,cLblName);
 		
-		txtDate = new JTextField(EGModel.getDate());
+		txtDate = new JTextField(model.getDate());
 		GridBagConstraints cDate = new GridBagConstraints();
 		cDate.insets = new Insets(0, 20, 0, 0);
 		cDate.gridx = 0;
@@ -119,7 +158,7 @@ public class EGView {
 		userInputPanel.add(lblDate,cLblDate);
 	
 		
-		txtWorkArea = new JTextField(EGModel.getWA());
+		txtWorkArea = new JTextField(model.getWA());
 		GridBagConstraints cWA = new GridBagConstraints();
 		cWA.insets = new Insets(0, 20, 0, 0);
 		cWA.gridx = 0;
@@ -134,10 +173,14 @@ public class EGView {
 		cLblWA.gridy = 3;
 		cLblWA.weightx = 0.25;
 	
+		txtWorkArea.getDocument().addDocumentListener(new UserInputListener());
+		txtDate.getDocument().addDocumentListener(new UserInputListener());
+		txtEmoc.getDocument().addDocumentListener(new UserInputListener());
+		txtName.getDocument().addDocumentListener(new UserInputListener());
 		userInputPanel.add(lblWorkArea,cLblWA);
 	}
 	
-	private static void createSelectDirPanel(JPanel selectDirectoryPanel) {
+	private  void createSelectDirPanel(JPanel selectDirectoryPanel) {
 		frame_1.getContentPane().add(selectDirectoryPanel, BorderLayout.NORTH);
 		selectDirectoryPanel.setBorder(new EmptyBorder(5,10,5,10));
 		selectDirectoryPanel.setLayout(new BorderLayout());
@@ -158,31 +201,38 @@ public class EGView {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void createAndShowGUI() {
+	public void createAndShowGUI() {
 		//setup labels
 			//Date = Today
 			//Work area = Asimov
 			// Applicant = Malcolm watson
 		// Select target directory
 		// Create EMOC, Support Doc, Hazard check
-		frame_1 = new JFrame("EMOC Generator");
-		frame_1.setPreferredSize(new Dimension(500, 200));
-		frame_1.getContentPane().setSize(new Dimension(500, 300));
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				frame_1 = new JFrame("EMOC Generator");
+				frame_1.setPreferredSize(new Dimension(500, 200));
+				frame_1.getContentPane().setSize(new Dimension(500, 300));
+				
+				BorderLayout borderLayout = (BorderLayout) frame_1.getContentPane().getLayout();
+				borderLayout.setHgap(10);
+				
+				JPanel confirmationPanel = new JPanel();
+				createConfirmationPanel(confirmationPanel);
+				
+				JPanel userInputPanel = new JPanel();
+				createUserInputPanel(userInputPanel);
+				
+				JPanel selectDirectoryPanel = new JPanel();
+				createSelectDirPanel(selectDirectoryPanel);
+				
+				frame_1.pack();
+				frame_1.setVisible(true);		
+				frame_1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			}
+		});
 		
-		BorderLayout borderLayout = (BorderLayout) frame_1.getContentPane().getLayout();
-		borderLayout.setHgap(10);
-		
-		JPanel confirmationPanel = new JPanel();
-		createConfirmationPanel(confirmationPanel);
-		
-		JPanel userInputPanel = new JPanel();
-		createUserInputPanel(userInputPanel);
-		
-		JPanel selectDirectoryPanel = new JPanel();
-		createSelectDirPanel(selectDirectoryPanel);
-		
-		frame_1.pack();
-		frame_1.setVisible(true);
 	}
 	
 		
