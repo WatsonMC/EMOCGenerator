@@ -41,17 +41,26 @@ public class TextReplacer {
 				processRun(run, searchText, replaceText);
 			}
 		}
+		
+		//headers and footers
+		for(XWPFParagraph para: doc.getHeaderArray(0).getParagraphs()) {
+			for(XWPFRun run: para.getRuns()) {
+				processRun(run, searchText, replaceText);}
+			
+		}
+		for(XWPFParagraph para: doc.getFooterArray(0).getParagraphs()) {
+			for(XWPFRun run: para.getRuns()) {
+				processRun(run, searchText, replaceText);}
+	}
 		return true;
 	}
 	
 	private static boolean processTableRow(XWPFTableRow row, String searchText, String replaceText) {
 		for(XWPFTableCell cell: row.getTableCells()) {
-//			System.out.println(cell.getText());
 		
 			for(XWPFParagraph para:cell.getParagraphs()) {
 				for(XWPFRun run: para.getRuns()) {
 					processRun(run, searchText, replaceText);
-					System.out.println(run.getText(0));
 				}
 			}
 		}
@@ -61,6 +70,7 @@ public class TextReplacer {
 	private static boolean processRun(XWPFRun run, String searchText, String replaceText) {
 		if(run.getText(0) != null && run.getText(0).contains(searchText)) {
 			run.setText(run.getText(0).replace(searchText,replaceText),0);
+			System.out.println(String.format("TEXT CHANGED %s has had %s inserted", run.getText(0),replaceText));
 			return true;
 		}
 		return false;

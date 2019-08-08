@@ -35,5 +35,9 @@ public class EGController {
 		EGController.view= view;
 	}
 	
+	public static EGView getView() {
+		return EGController.view;
+	}
+	
 
 }

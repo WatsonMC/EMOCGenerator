@@ -71,5 +71,19 @@ public class EGModel {
 	public  void setWA(String workArea) {
 		FIELD_DATA.put("workArea",workArea);
 	}
+	public  String getEmoc() {
+		return FIELD_DATA.get("emoc");
+	}
+	public  void setEmoc(String emoc) {
+		FIELD_DATA.put("emoc",emoc);
+	}
+	
+	public Map<String,String> getFieldKeys(){
+		return new HashMap<String,String>(this.FIELD_KEYS);
+	}
+	
+	public Map<String,String> getFieldValues(){
+		return new HashMap<String,String>(this.FIELD_DATA);
+	}
 
 }

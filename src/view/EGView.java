@@ -15,9 +15,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.Document;
 
 import Controller.ConfirmationController;
 import Controller.TargetDirController;
+import Controller.UserInputListener;
 import Model.EGModel;
 
 public class EGView {
@@ -57,6 +59,28 @@ public class EGView {
 	public void loadModel(EGModel model) {
 		this.model = model;
 	}
+	
+	public boolean updateField(Document comp) {
+		if(comp.equals(txtName.getDocument())) {
+			model.setName(txtName.getText());
+			return true;
+		}
+		if(comp.equals(txtDate.getDocument())) {
+			model.setDate((txtDate.getText()));
+			return true;
+		}
+		if(comp.equals(txtEmoc.getDocument())) {
+			model.setEmoc(txtEmoc.getText());
+			return true;
+		}
+		if(comp.equals(txtWorkArea.getDocument())) {
+			model.setWA(txtWorkArea.getText());
+//			System.out.println("text changed: " + txtWorkArea.getText());
+			return true;
+		}
+		return false;
+	}
+	
 	
 	
 	private void createConfirmationPanel(JPanel panel) {
@@ -149,6 +173,10 @@ public class EGView {
 		cLblWA.gridy = 3;
 		cLblWA.weightx = 0.25;
 	
+		txtWorkArea.getDocument().addDocumentListener(new UserInputListener());
+		txtDate.getDocument().addDocumentListener(new UserInputListener());
+		txtEmoc.getDocument().addDocumentListener(new UserInputListener());
+		txtName.getDocument().addDocumentListener(new UserInputListener());
 		userInputPanel.add(lblWorkArea,cLblWA);
 	}
 	
@@ -200,7 +228,8 @@ public class EGView {
 				createSelectDirPanel(selectDirectoryPanel);
 				
 				frame_1.pack();
-				frame_1.setVisible(true);				
+				frame_1.setVisible(true);		
+				frame_1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 		});
 		
