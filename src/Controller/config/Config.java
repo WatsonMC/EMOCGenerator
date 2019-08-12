@@ -1,4 +1,4 @@
-package config;
+package Controller.config;
 
 import java.util.Properties;
 
@@ -39,6 +39,8 @@ public class Config {
         if(instance == null) {instance = new Config();}
         return setProperty(key,value);
     }
+
+
 
 
 }

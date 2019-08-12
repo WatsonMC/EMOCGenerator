@@ -14,11 +14,11 @@ public class EGController {
 		 * data validation on confirmation
 		 * confirmation: For each doc
 		 * 	- Load individually
-		 * 	- Replace target ID's with the config'd values
+		 * 	- Replace target ID's with the Controller.config'd values
 		 *  - Save doc in target directory
 		 *  
 		 *  Saveable configs
-		 *  External config
+		 *  External Controller.config
 		 *  Right Click to perform
 		 *  
 		 */

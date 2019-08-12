@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Controller.config.Config;
 import view.EGView;
 
 public class EGModel {
@@ -43,12 +44,33 @@ public class EGModel {
 	}
 	
 	private  EGView view;
-	
+
+
+
 	public EGModel(){
 		initKeys();
 		initData();
+		loadConfig();
+
 	}
-	
+
+	private void loadConfig(){
+		for(String key: FIELD_DATA.keySet()){
+			if(Config.getProperty(key)!= null){
+				FIELD_DATA.put(key, Config.getProperty(key));
+			}
+		}
+	}
+
+	public void setProperty(String key, String value){
+		if(FIELD_DATA.get(key) != null){
+			FIELD_DATA.put(key,value);
+		}
+		else{
+			System.out.println(String.format("Failed to load property: %s, %s", key, value));
+		}
+	}
+
 	public void loadView(EGView view) {
 		this.view = view;
 	}
