@@ -54,6 +54,10 @@ public class EGModel {
 
 	}
 
+	public void updateFields(){
+		view.updateView();
+	}
+
 	private void loadConfig(){
 		for(String key: FIELD_DATA.keySet()){
 			if(Config.getProperty(key)!= null){

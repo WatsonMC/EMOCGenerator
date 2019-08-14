@@ -1,5 +1,10 @@
 package Controller.config;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 public class Config {
@@ -9,8 +14,7 @@ public class Config {
     private Config(){
         configFile = new Properties();
         try{
-            System.out.println(this.getClass().getResource("/").getPath());
-            configFile.load(this.getClass().getResourceAsStream(("/config.cfg")));
+            configFile.load(this.getClass().getResourceAsStream(("/res/config.properties")));
         }
         catch(Exception eta){
             eta.printStackTrace();
@@ -24,6 +28,14 @@ public class Config {
     private boolean setValue(String key, String value){
         if(configFile.getProperty(key)!= null){
             configFile.setProperty(key,value);
+            try {
+                FileOutputStream out = new FileOutputStream(new File(this.getClass().getResource("/res/config.properties").getPath()));
+                configFile.store(out,"no comment");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
         return false;
@@ -37,7 +49,7 @@ public class Config {
 
     public static boolean setProperty(String key, String value){
         if(instance == null) {instance = new Config();}
-        return setProperty(key,value);
+        return instance.setValue(key,value);
     }
 
 

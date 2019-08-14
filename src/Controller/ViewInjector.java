@@ -1,5 +1,6 @@
 package Controller;
 
+import view.ConfigDialog;
 import view.EGView;
 
 public class ViewInjector {

@@ -6,14 +6,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.Document;
 
@@ -32,6 +28,9 @@ public class EGView {
 	private  JTextField txtEmoc;
 	private  JTextField txtTgtDir;
 	private  JFrame frame_1;
+	private JMenuBar menubar;
+
+
 	
 	private static final String TEXT_TARGET_DIR = "/Target/Directory/Here";
 	
@@ -80,7 +79,7 @@ public class EGView {
 		}
 		return false;
 	}
-	
+
 	
 	
 	private void createConfirmationPanel(JPanel panel) {
@@ -91,7 +90,30 @@ public class EGView {
 		panel.setLayout(new BorderLayout());
 		panel.add(btnConfirm,BorderLayout.CENTER);
 	}
-	
+
+	private void createMenuBar(JFrame frame){
+		menubar = new JMenuBar();
+		JMenu file = new JMenu("file");
+		JMenuItem configItem = new JMenuItem("Config");
+		configItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ConfigDialog.createAndShowDialog();
+			}
+		});
+		JMenuItem templatesItem = new JMenuItem("Templates");
+		templatesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TemplateSourcesDialog.createAndShowDialog();
+			}
+		});
+		file.add(templatesItem);
+		file.add(configItem);
+		menubar.add(file);
+		frame.setJMenuBar(menubar);
+	}
+
 	private void createUserInputPanel(JPanel userInputPanel){
 		userInputPanel.setForeground(Color.LIGHT_GRAY);
 		GridBagLayout gl_userInputPanel = new GridBagLayout();
@@ -195,7 +217,13 @@ public class EGView {
 		btnSelectDirectory.addActionListener(new TargetDirController());
 		
 	}
-	
+
+	public void updateView(){
+		txtEmoc.setText(model.getEmoc());
+		txtName.setText(model.getName());
+		txtWorkArea.setText(model.getWA());
+	}
+
 	//@wbp.parser.entryPoint
 
 	/**
@@ -212,9 +240,9 @@ public class EGView {
 			@Override
 			public void run() {
 				frame_1 = new JFrame("EMOC Generator");
-				frame_1.setPreferredSize(new Dimension(500, 200));
+				frame_1.setPreferredSize(new Dimension(500, 250));
 				frame_1.getContentPane().setSize(new Dimension(500, 300));
-				
+				frame_1.setResizable(false);
 				BorderLayout borderLayout = (BorderLayout) frame_1.getContentPane().getLayout();
 				borderLayout.setHgap(10);
 				
@@ -226,7 +254,8 @@ public class EGView {
 				
 				JPanel selectDirectoryPanel = new JPanel();
 				createSelectDirPanel(selectDirectoryPanel);
-				
+
+				createMenuBar(frame_1);
 				frame_1.pack();
 				frame_1.setVisible(true);		
 				frame_1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
