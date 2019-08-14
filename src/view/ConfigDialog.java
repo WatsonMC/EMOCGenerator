@@ -27,7 +27,7 @@ public class ConfigDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        this.setTitle("Configure default values");
+        this.setTitle("Configure Default Values");
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

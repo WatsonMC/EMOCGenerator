@@ -28,7 +28,7 @@ public class ConfirmationController implements ActionListener{
 		String targetDir = view.getTgtDir();
 		String EMOCNo = view.getEmoc();
 		Map<String,String> filePathes = new HashMap<>();
-		for(String filePath: EGModel.SOURCE_DOCS) {
+		for(String filePath: model.TEMPLATE_PATHES.values()) {
 			String newFilePath = appendFileToTgtDir(filePath, targetDir);
 			filePathes.put(filePath,prependEmocNoToFilePath(newFilePath, EMOCNo));
 		}

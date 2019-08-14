@@ -24,6 +24,8 @@ public class TemplateSourcesDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        this.setTitle("Template Pathes");
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -51,13 +53,37 @@ public class TemplateSourcesDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        btnAF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = "applicationFormFP";
+                Config.setProperty(key,componentMap.get(key).getText());
+            }
+        });
+        btnHC.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = "hazardsChecklistFP";
+                Config.setProperty(key,componentMap.get(key).getText());
+            }
+        });
+        btnSD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String key = "supportingDocsFP";
+                Config.setProperty(key,componentMap.get(key).getText());
+            }
+        });
     }
 
     private void onOK() {
         // add your code here
-        //TODO set config properties to be text field valuse
+        for(String key:componentMap.keySet()){
+            Config.setProperty(key, componentMap.get(key).getText());
+        }
+        //TODO set config properties to be text field valuse DONE
         //TODO set buttons to call FileGUI.getFile() and send that to the txtField
-        //TODO change model so that it reads filepathes from config file, then add update method so that it re-reads after this dialog closes
+        //TODO change model so that it reads filepathes from config file, then add update method so that it re-reads after this dialog closes DONE
         dispose();
     }
 

@@ -17,12 +17,13 @@ public class EGModel {
 	public static final String FP_APPLICATION = "C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\EMOC Application form.docx";
 
 	//Docs to copy accorss
-	public static final List<String> SOURCE_DOCS = Arrays.asList(new String[]{
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\EMOC Application Form.docx",
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Document Template.docx",
-			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Hazard Checklist.docx"
-	});
-	
+//	public static final List<String> SOURCE_DOCS = Arrays.asList(new String[]{
+//			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\EMOC Application Form.docx",
+//			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Document Template.docx",
+//			"C:\\Users\\sp194e\\Documents\\Programs\\JAVA\\EMOCGenerator\\Ext\\Hazard Checklist.docx"
+//	});
+	public Map<String,String> TEMPLATE_PATHES = new HashMap<>();
+
 	private Map<String,String> FIELD_DATA;          
 	public void initData() {
 		Map<String,String> tempMap = new HashMap<>();
@@ -50,7 +51,8 @@ public class EGModel {
 	public EGModel(){
 		initKeys();
 		initData();
-		loadConfig();
+		loadConfigTemplatePathes();
+		loadConfigFields();
 
 	}
 
@@ -58,12 +60,22 @@ public class EGModel {
 		view.updateView();
 	}
 
-	private void loadConfig(){
+	public void updateTemplatePathes(){
+		this.loadConfigTemplatePathes();
+	}
+
+	private void loadConfigFields(){
 		for(String key: FIELD_DATA.keySet()){
 			if(Config.getProperty(key)!= null){
 				FIELD_DATA.put(key, Config.getProperty(key));
 			}
 		}
+	}
+
+	private void loadConfigTemplatePathes(){
+		TEMPLATE_PATHES.put("hazardsChecklistFP",Config.getProperty("hazardsChecklistFP"));
+		TEMPLATE_PATHES.put("applicationFormFP",Config.getProperty("applicationFormFP"));
+		TEMPLATE_PATHES.put("supportingDocsFP",Config.getProperty("supportingDocsFP"));
 	}
 
 	public void setProperty(String key, String value){
