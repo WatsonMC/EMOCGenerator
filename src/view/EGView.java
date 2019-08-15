@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +34,7 @@ public class EGView {
 
 
 	
-	private static final String TEXT_TARGET_DIR = "/Target/Directory/Here";
+	private static  String TEXT_TARGET_DIR = "/Target/Directory/Here";
 	
 	public  String getEmoc() {
 		return txtEmoc.getText();
@@ -48,7 +50,10 @@ public class EGView {
 
 
 	public  void setDirText(String newText) {
-		txtTgtDir.setText(newText); 
+		EGView.TEXT_TARGET_DIR = newText;
+		if(txtTgtDir != null){
+			txtTgtDir.setText(newText);
+		}
 	}
 	
 	public EGView(EGModel model) {
@@ -211,6 +216,12 @@ public class EGView {
 		
 		txtTgtDir = new JTextField(TEXT_TARGET_DIR);
 		selectDirectoryPanel.add(txtTgtDir, BorderLayout.CENTER);
+		txtTgtDir.addPropertyChangeListener(TEXT_TARGET_DIR, new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				txtTgtDir.setText(TEXT_TARGET_DIR);
+			}
+		});
 		
 		JButton btnSelectDirectory = new JButton("Select Directory");
 		selectDirectoryPanel.add(btnSelectDirectory, BorderLayout.LINE_END);
