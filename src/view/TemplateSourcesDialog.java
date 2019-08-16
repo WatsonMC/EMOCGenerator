@@ -1,6 +1,7 @@
 package view;
 
 import Controller.config.Config;
+import fileReaderGUI.FileGuiInterface;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -57,21 +58,32 @@ public class TemplateSourcesDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String key = "applicationFormFP";
-                Config.setProperty(key,componentMap.get(key).getText());
+                String newPath =(FileGuiInterface.getFile().getAbsolutePath());
+                if(newPath!= null){
+                    componentMap.get(key).setText(newPath);
+                }
+//                Config.setProperty(key,componentMap.get(key).getText());
             }
         });
         btnHC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String key = "hazardsChecklistFP";
-                Config.setProperty(key,componentMap.get(key).getText());
+                String newPath =(FileGuiInterface.getFile().getAbsolutePath());
+                if(newPath!= null){
+                    componentMap.get(key).setText(newPath);
+                }
+//                Config.setProperty(key,componentMap.get(key).getText());
             }
         });
         btnSD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String key = "supportingDocsFP";
-                Config.setProperty(key,componentMap.get(key).getText());
+                String newPath =(FileGuiInterface.getFile().getAbsolutePath());
+                if(newPath!= null){
+                    componentMap.get(key).setText(newPath);
+                }//                Config.setProperty(key,componentMap.get(key).getText());
             }
         });
     }

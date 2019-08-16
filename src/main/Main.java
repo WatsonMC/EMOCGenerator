@@ -14,7 +14,7 @@ public class Main {
 		model.loadView(view);
 		ViewInjector.injectView(view);
 		ModelInjector.injectModel(model);
-		if(args !=null){
+		if(args.length !=0){
 			view.setDirText(args[0]);
 		}
 		view.createAndShowGUI();

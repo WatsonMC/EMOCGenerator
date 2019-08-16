@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 //import fileReaderGUI.FileGUI;
+import fileReaderGUI.FileGUI;
+import fileReaderGUI.FileGuiInterface;
 import view.EGView;
 
 public class TargetDirController  implements ActionListener{
@@ -18,8 +20,7 @@ public class TargetDirController  implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		String filePath ="1";
-				//FileGUI.getDirectory().getAbsolutePath();
+		String filePath = FileGuiInterface.getDirectory().getAbsolutePath();
 		if(filePath !=null) {
 			view.setDirText(filePath);
 			//TODO log here- filepath x set
