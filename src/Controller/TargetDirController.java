@@ -20,6 +20,7 @@ public class TargetDirController  implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("Opening File GUI for target directory");
 		String filePath = FileGuiInterface.getDirectory().getAbsolutePath();
 		if(filePath !=null) {
 			view.setDirText(filePath);

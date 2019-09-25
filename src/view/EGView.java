@@ -1,16 +1,14 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.Document;
@@ -88,7 +86,7 @@ public class EGView {
 	
 	
 	private void createConfirmationPanel(JPanel panel) {
-		frame_1.getContentPane().add(panel, BorderLayout.SOUTH);
+//		frame_1.getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setBorder(new EmptyBorder(0,10,5,10));
 		JButton btnConfirm = new JButton("Confirm selections, create documents");
 		btnConfirm.addActionListener(new ConfirmationController());
@@ -113,10 +111,19 @@ public class EGView {
 				TemplateSourcesDialog.createAndShowDialog();
 			}
 		});
+		JMenuItem helpItem = new JMenuItem("Help");
+		helpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpDialog.createAndShowDialog();
+			}
+		});
 		file.add(templatesItem);
 		file.add(configItem);
+		file.add(helpItem);
 		menubar.add(file);
 		frame.setJMenuBar(menubar);
+
 	}
 
 	private void createUserInputPanel(JPanel userInputPanel){
@@ -126,11 +133,11 @@ public class EGView {
 		
 	
 		userInputPanel.setLayout(gl_userInputPanel);
-		frame_1.getContentPane().add(userInputPanel, BorderLayout.CENTER);
+//		frame_1.getContentPane().add(userInputPanel, BorderLayout.CENTER);
 		
 
 		
-		txtEmoc = new JTextField();
+		txtEmoc = new JTextField(model.getEmoc());
 		GridBagConstraints cEmoc = new GridBagConstraints();
 		cEmoc.insets = new Insets(0, 20, 0, 0);
 		cEmoc.gridx = 0;
@@ -208,9 +215,10 @@ public class EGView {
 	}
 	
 	private  void createSelectDirPanel(JPanel selectDirectoryPanel) {
-		frame_1.getContentPane().add(selectDirectoryPanel, BorderLayout.NORTH);
+//		frame_1.getContentPane().add(selectDirectoryPanel, BorderLayout.NORTH);
 		selectDirectoryPanel.setBorder(new EmptyBorder(5,10,5,10));
 		selectDirectoryPanel.setLayout(new BorderLayout());
+		selectDirectoryPanel.setBackground(Color.WHITE);
 		
 		
 		
@@ -251,21 +259,34 @@ public class EGView {
 			@Override
 			public void run() {
 				frame_1 = new JFrame("EMOC Generator");
+				frame_1.getContentPane().setBackground((Color.WHITE));
 				frame_1.setPreferredSize(new Dimension(500, 250));
 				frame_1.getContentPane().setSize(new Dimension(500, 300));
 				frame_1.setResizable(false);
 				BorderLayout borderLayout = (BorderLayout) frame_1.getContentPane().getLayout();
-				borderLayout.setHgap(10);
+				borderLayout.setHgap(0);
 				
 				JPanel confirmationPanel = new JPanel();
 				createConfirmationPanel(confirmationPanel);
+				frame_1.add(confirmationPanel, BorderLayout.SOUTH);
 				
 				JPanel userInputPanel = new JPanel();
 				createUserInputPanel(userInputPanel);
-				
+				frame_1.add(userInputPanel, BorderLayout.CENTER);
+
+				JPanel topPanel = new JPanel();	//for select dir and logo
+				topPanel.setLayout(new GridLayout(2,1));
+
 				JPanel selectDirectoryPanel = new JPanel();
 				createSelectDirPanel(selectDirectoryPanel);
 
+				JPanel logoPanel = new JPanel();
+				createLogo(logoPanel);
+				topPanel.add(logoPanel);
+				topPanel.add(selectDirectoryPanel);
+
+
+				frame_1.add(topPanel,BorderLayout.NORTH);
 				createMenuBar(frame_1);
 				frame_1.pack();
 				frame_1.setVisible(true);		
@@ -273,8 +294,25 @@ public class EGView {
 			}
 		});
 		
+
 	}
-	
+
+	private void createLogo(JPanel panel){
+		panel.setBackground(Color.WHITE);
+		BufferedImage logo = null;
+		try{
+			logo = ImageIO.read(this.getClass().getResourceAsStream("/res/boc_logo.jpg"));
+			JLabel logoLabel = new JLabel(ImageScaler.getScaledImageByHeight(logo,30));
+			JLabel lblTitle = new JLabel();
+			lblTitle.setFont(new Font(Font.SERIF, Font.BOLD,15));
+			lblTitle.setText("EMOC Generator");
+			lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
+			panel.add(lblTitle,BorderLayout.PAGE_START);
+			panel.add(logoLabel,BorderLayout.PAGE_END);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 		
 	public Dimension getFrameSize() {
 		return frame_1.getSize();
@@ -282,4 +320,6 @@ public class EGView {
 	public void setFrameSize(Dimension size) {
 		frame_1.setSize(size);
 	}
+
+
 }

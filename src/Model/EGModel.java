@@ -124,4 +124,9 @@ public class EGModel {
 		return new HashMap<String,String>(this.FIELD_DATA);
 	}
 
+	public Map<String,String> getTemplates(){
+		loadConfigTemplatePathes();
+		return new HashMap<>(this.TEMPLATE_PATHES);
+	}
+
 }

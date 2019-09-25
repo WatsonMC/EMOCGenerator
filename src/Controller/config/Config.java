@@ -8,9 +8,18 @@ import java.net.URISyntaxException;
 import java.util.Properties;
 
 public class Config {
+
+    /*
+    *@author
+     */
+
+
     private static Config instance;
     private Properties configFile;
 
+    /*
+    *Constructor for config object. Creates the Properties object.
+     */
     private Config(){
         configFile = new Properties();
         try{
@@ -21,10 +30,20 @@ public class Config {
         }
     }
 
+    /*
+    *Getter for a key:value
+    *@return vale for key or null
+    */
     private String getValue(String key){
         return configFile.getProperty(key);
     }
 
+    /*
+    *Setter for properties file
+    *@param key String key for properties file
+    *@param value String key to be applied in properties to key
+    *@return boolean, true if successfully altered properties else false
+    */
     private boolean setValue(String key, String value){
         if(configFile.getProperty(key)!= null){
             configFile.setProperty(key,value);
@@ -41,12 +60,23 @@ public class Config {
         return false;
     }
 
+    /*
+    *Getter for property
+    *@param key key of property to be returned
+    @return value of property as a String or null
+     */
     public static String getProperty(String key){
         if(instance == null) {instance = new Config();}
         return instance.getValue(key);
 
     }
 
+    /*
+    Setter for property
+    @param key key to be set
+    @param value String of value to be st to key
+    @return boolean, true if set false else
+     */
     public static boolean setProperty(String key, String value){
         if(instance == null) {instance = new Config();}
         return instance.setValue(key,value);

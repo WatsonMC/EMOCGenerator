@@ -14,6 +14,7 @@ public class ConfirmationControllerTest {
 			String res1 = "1\\2\\3\\4\\5\\6\\1010 teststring";
 //			System.out.println(ConfirmationController.prependEmocNoToFilePath(test1, emocNo));
 			Assert.assertEquals(res1, ConfirmationController.prependEmocNoToFilePath(test1, emocNo));
+
 		}
 		
 		@Test
