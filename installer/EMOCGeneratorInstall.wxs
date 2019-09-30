@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+<Product Name='EMOC Generator 1.0' Manufacturer='Watson'
+        Id='245C40A9-1F2C-43D3-B1AD-8845876D8084' 
+        UpgradeCode='36A2A8ED-045B-4DBA-BA54-59E4EF226109'
+        Language='1033' Codepage='1252' Version='1.0.0'>
+		
+    <Package Id='*' Keywords='Installer' Description="EMOC Generator 1.0 Installer"
+        Manufacturer='Watson'
+        InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+		
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+	
+	<Directory Id='TARGETDIR' Name='SourceDir'>
+		<Directory Id='ProgramFilesFolder' Name='PFiles'>
+			<Directory Id='Watson' Name='Watson'>
+				<Directory Id='INSTALLDIR' Name='EMOC Generator'>
+					
+					<Component Id='MainJar' Guid = '94FDDD72-5223-4700-8866-926C76CEBBB2'>
+						<File Id='EMOCGeneratorJar' Name='EMOC Generator.jar' DiskId='1' Source='EMOC Generator.jar' KeyPath='yes'>
+						</File>
+					</Component>
+					<Component Id='statupScript' Guid = '6D307640-AA91-4692-8B09-2F60747940CE'>
+						<File Id='start_eg.bat' Name='start_eg.bat' DiskId='1' Source='start_eg.bat' KeyPath='yes'>
+						</File>
+					</Component>
+					
+					<Component Id='Config' Guid = ''>	
+						<File Id='ConfigFile' Name='Config.Properties' DiskId='1' Source='Config.Properties' KeyPath='yes'>
+						</File>
+					</Component>
+					
+					<Directory Id='Ext' Name = 'Ext'>
+					
+						<Component Id='Docs' Guid = '19B39646-B448-4797-AC91-E59CAC7FEF7E'>
+							<File Id='ApplicationForm' Name='EMOC Application Form.docx' DiskId='1' Source='Ext/EMOC Application Form.docx' KeyPath='no'>
+							</File>
+							<File Id='HazardChecklist' Name='Hazard Checklist.docx' DiskId='1' Source='Ext/Hazard Checklist.docx' KeyPath='no'>
+							</File>
+							<File Id='SupportingDocs' Name='Supporting Documentation.docx' DiskId='1' Source='Ext/Supporting Documentation.docx' KeyPath='no'>
+							</File>
+						</Component>
+
+					</Directory>
+						
+				</Directory>	
+			</Directory>	
+		</Directory>	
+	</Directory>	
+					
+					
+					
+					
+	<Feature Id='Complete' Level='1'>
+    <ComponentRef Id='MainJar' />	
+	<ComponentRef Id='statupScript' />	
+	<ComponentRef Id='Docs' />	
+	<ComponentRef Id='Config' />
+	</Feature>
+	
+</Product>
+</Wix>
