@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.Document;
 
@@ -128,7 +129,11 @@ public class EGView {
 
 	private void createUserInputPanel(JPanel userInputPanel){
 		userInputPanel.setForeground(Color.LIGHT_GRAY);
+		Border emptyBorder = BorderFactory.createEmptyBorder(15,10,15,10);
+		//userInputPanel.setSize(new Dimension(500,300));
+		userInputPanel.setBorder(emptyBorder);
 		GridBagLayout gl_userInputPanel = new GridBagLayout();
+
 		
 		
 	
@@ -138,19 +143,21 @@ public class EGView {
 
 		
 		txtEmoc = new JTextField(model.getEmoc());
+		//txtEmoc.setSize(new Dimension(600,20));
 		GridBagConstraints cEmoc = new GridBagConstraints();
 		cEmoc.insets = new Insets(0, 20, 0, 0);
 		cEmoc.gridx = 0;
 		cEmoc.weightx = 0.75;
 		cEmoc.gridy = 0;
-		cEmoc.gridwidth = 2;
+		cEmoc.gridwidth = 4;
+		cEmoc.ipady  =5;
 		cEmoc.fill = GridBagConstraints.HORIZONTAL;
 		userInputPanel.add(txtEmoc,cEmoc);
 		JLabel lbLEmoc = new JLabel("EMOC No");
 		lbLEmoc.setHorizontalTextPosition(SwingConstants.LEFT);
 		lbLEmoc.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints cLblEmoc = new GridBagConstraints();
-		cLblEmoc.gridx = 2;
+		cLblEmoc.gridx =4 ;
 		cLblEmoc.gridy = 0;
 		cLblEmoc.weightx = 0.25;
 		userInputPanel.add(lbLEmoc,cLblEmoc);
@@ -163,14 +170,15 @@ public class EGView {
 		cName.gridx = 0;
 		cName.weightx = 0.75;
 		cName.gridy = 1;
-		cName.gridwidth = 2;
+		cName.gridwidth = 4;
+		cName.ipady = 5;
 		cName.fill = GridBagConstraints.HORIZONTAL;
 		userInputPanel.add(txtName,cName);
 		JLabel lblName = new JLabel("Applicant");
 		lblName.setHorizontalTextPosition(SwingConstants.LEFT);
 		lblName.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints cLblName = new GridBagConstraints();
-		cLblName.gridx = 2;
+		cLblName.gridx = 4;
 		cLblName.gridy = 1;
 		cLblName.weightx = 0.25;
 		userInputPanel.add(lblName,cLblName);
@@ -181,12 +189,13 @@ public class EGView {
 		cDate.gridx = 0;
 		cDate.weightx = 0.75;
 		cDate.gridy = 2;
-		cDate.gridwidth = 2;
+		cDate.ipady = 2;
+		cDate.gridwidth = 4;
 		cDate.fill = GridBagConstraints.HORIZONTAL;
 		userInputPanel.add(txtDate,cDate);
 		JLabel lblDate = new JLabel("Date");
 		GridBagConstraints cLblDate = new GridBagConstraints();
-		cLblDate.gridx = 2;
+		cLblDate.gridx = 4;
 		cLblDate.gridy = 2;
 		cLblDate.weightx = 0.25;
 		userInputPanel.add(lblDate,cLblDate);
@@ -198,12 +207,14 @@ public class EGView {
 		cWA.gridx = 0;
 		cWA.weightx = 0.75;
 		cWA.gridy = 3;
-		cWA.gridwidth = 2;
+		cWA.gridwidth = 4;
+		cWA.ipady = 5;
+
 		cWA.fill = GridBagConstraints.HORIZONTAL;
 		userInputPanel.add(txtWorkArea,cWA);
 		JLabel lblWorkArea = new JLabel("Work Area");
 		GridBagConstraints cLblWA = new GridBagConstraints();
-		cLblWA.gridx = 2;
+		cLblWA.gridx = 4;
 		cLblWA.gridy = 3;
 		cLblWA.weightx = 0.25;
 	
@@ -212,6 +223,7 @@ public class EGView {
 		txtEmoc.getDocument().addDocumentListener(new UserInputListener());
 		txtName.getDocument().addDocumentListener(new UserInputListener());
 		userInputPanel.add(lblWorkArea,cLblWA);
+
 	}
 	
 	private  void createSelectDirPanel(JPanel selectDirectoryPanel) {
@@ -223,6 +235,8 @@ public class EGView {
 		
 		
 		txtTgtDir = new JTextField(TEXT_TARGET_DIR);
+		txtTgtDir.setMaximumSize(new Dimension(400,20));
+		txtTgtDir.setMinimumSize(new Dimension(400,20));
 		selectDirectoryPanel.add(txtTgtDir, BorderLayout.CENTER);
 		txtTgtDir.addPropertyChangeListener(TEXT_TARGET_DIR, new PropertyChangeListener() {
 			@Override
@@ -260,11 +274,11 @@ public class EGView {
 			public void run() {
 				frame_1 = new JFrame("EMOC Generator");
 				frame_1.getContentPane().setBackground((Color.WHITE));
-				frame_1.setPreferredSize(new Dimension(500, 250));
-				frame_1.getContentPane().setSize(new Dimension(500, 300));
+//				frame_1.setPreferredSize(new Dimension(500, 280));
+//				frame_1.getContentPane().setSize(new Dimension(600, 300));
 				frame_1.setResizable(false);
 				BorderLayout borderLayout = (BorderLayout) frame_1.getContentPane().getLayout();
-				borderLayout.setHgap(0);
+				borderLayout.setHgap(5);
 				
 				JPanel confirmationPanel = new JPanel();
 				createConfirmationPanel(confirmationPanel);

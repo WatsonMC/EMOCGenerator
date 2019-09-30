@@ -1,9 +1,5 @@
 package Controller;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.codec.binary.StringUtils;
 
 import view.EGView;
 

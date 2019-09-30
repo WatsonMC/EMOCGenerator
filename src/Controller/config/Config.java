@@ -1,9 +1,9 @@
 package Controller.config;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import org.apache.commons.io.FileUtils;
+
+import javax.naming.ConfigurationException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.Properties;
 
@@ -16,14 +16,19 @@ public class Config {
 
     private static Config instance;
     private Properties configFile;
+    private String filePath;
+    private static String installationRoot = System.getenv("PROGRAMFILES(X86)") + "\\Watson\\EMOC Generator";
 
     /*
     *Constructor for config object. Creates the Properties object.
      */
     private Config(){
         configFile = new Properties();
-        try{
-            configFile.load(this.getClass().getResourceAsStream(("/res/config.properties")));
+        filePath = System.getProperty("user.home") + "\\AppData\\Roaming\\WatsonWare\\Emoc Generator\\config.properties";
+        try(FileInputStream in = new FileInputStream(new File(filePath) )){
+            System.out.println("new Config object created");
+            configFile.load(in);
+//            configFile.load(Config.class.getResourceAsStream(("/res/config.properties")));
         }
         catch(Exception eta){
             eta.printStackTrace();
@@ -31,10 +36,11 @@ public class Config {
     }
 
     /*
-    *Getter for a key:value
-    *@return vale for key or null
-    */
-    private String getValue(String key){
+     *Getter for a key:value
+     *@return vale for  key or null
+     */
+    private String getValue(String key) {
+
         return configFile.getProperty(key);
     }
 
@@ -47,13 +53,15 @@ public class Config {
     private boolean setValue(String key, String value){
         if(configFile.getProperty(key)!= null){
             configFile.setProperty(key,value);
-            try {
-                FileOutputStream out = new FileOutputStream(new File(this.getClass().getResource("/res/config.properties").getPath()));
+            try (FileOutputStream out = new FileOutputStream(new File(filePath))){
                 configFile.store(out,"no comment");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            finally{
+
             }
             return true;
         }
@@ -82,7 +90,25 @@ public class Config {
         return instance.setValue(key,value);
     }
 
+    /*
+    Method to initialzie the config file from the install location and copy it to app data.
+    Method also alters file contents to point to freshly installed Doc locations
+     */
+    public static void intialize() throws ConfigurationException,IOException{
+        String rootDirPath = System.getenv("PROGRAMFILES(X86)");
+        System.out.println(rootDirPath);
+        String configFilePath = installationRoot + "\\config.properties";
+        String appDataPath =  System.getProperty("user.home") + "\\AppData\\Roaming\\WatsonWare\\Emoc Generator\\config.properties";
 
-
+        if(new File(appDataPath).exists()){
+            throw new ConfigurationException("Initialize config called, but config file exists already. Config file will not be replaced");
+        }
+        else{
+            FileUtils.copyFile(new File(configFilePath),new File(appDataPath));
+        }
+        setProperty("applicationFormFP",installationRoot+"\\Ext\\EMOC Application Form.docx");
+        setProperty("supportingDocsFP",installationRoot+"\\Ext\\Supporting Documentation.docx");
+        setProperty("hazardsChecklistFP",installationRoot+"\\Ext\\Hazard Checklist.docx");
+    }
 
 }

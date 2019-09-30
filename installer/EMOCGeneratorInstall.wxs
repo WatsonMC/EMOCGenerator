@@ -25,9 +25,13 @@
 						<File Id='start_eg.bat' Name='start_eg.bat' DiskId='1' Source='start_eg.bat' KeyPath='yes'>
 						</File>
 					</Component>
+					<Component Id='initScript' Guid = '348DE838-836E-47EF-9725-6799F07DA709'>
+						<File Id='init.bat' Name='init.bat' DiskId='1' Source='init.bat' KeyPath='yes'>
+						</File>
+					</Component>
 					
 					<Component Id='Config' Guid = ''>	
-						<File Id='ConfigFile' Name='Config.Properties' DiskId='1' Source='Config.Properties' KeyPath='yes'>
+						<File Id='ConfigFile' Name='config.properties' DiskId='1' Source='config.properties' KeyPath='yes'>
 						</File>
 					</Component>
 					
@@ -48,13 +52,20 @@
 			</Directory>	
 		</Directory>	
 	</Directory>	
-					
-					
+	
+<CustomAction Id='initBat'
+    ExeCommand='[INSTALLDIR]init.bat'
+    Directory='INSTALLDIR' Execute='deferred' Return='asyncWait'/>
+
+<InstallExecuteSequence>
+    <Custom Action='initBat' After='InstallFiles'>NOT Installed</Custom>
+</InstallExecuteSequence>
 					
 					
 	<Feature Id='Complete' Level='1'>
-    <ComponentRef Id='MainJar' />	
-	<ComponentRef Id='statupScript' />	
+    	<ComponentRef Id='MainJar' />	
+	<ComponentRef Id='statupScript' />
+	<ComponentRef Id='initScript' />	
 	<ComponentRef Id='Docs' />	
 	<ComponentRef Id='Config' />
 	</Feature>
