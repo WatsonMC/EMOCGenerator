@@ -230,13 +230,14 @@ public class EGView {
 //		frame_1.getContentPane().add(selectDirectoryPanel, BorderLayout.NORTH);
 		selectDirectoryPanel.setBorder(new EmptyBorder(5,10,5,10));
 		selectDirectoryPanel.setLayout(new BorderLayout());
-		selectDirectoryPanel.setBackground(Color.WHITE);
+		selectDirectoryPanel.setForeground(Color.LIGHT_GRAY);
 		
 		
 		
 		txtTgtDir = new JTextField(TEXT_TARGET_DIR);
-		txtTgtDir.setMaximumSize(new Dimension(400,20));
-		txtTgtDir.setMinimumSize(new Dimension(400,20));
+		txtTgtDir.setMaximumSize(new Dimension(800,20));
+		txtTgtDir.setMinimumSize(new Dimension(800,20));
+		txtTgtDir.setColumns(30);
 		selectDirectoryPanel.add(txtTgtDir, BorderLayout.CENTER);
 		txtTgtDir.addPropertyChangeListener(TEXT_TARGET_DIR, new PropertyChangeListener() {
 			@Override
@@ -299,6 +300,8 @@ public class EGView {
 				topPanel.add(logoPanel);
 				topPanel.add(selectDirectoryPanel);
 
+				//Add Border
+				//frame_1.getRootPane().setBorder(BorderFactory.create(1));
 
 				frame_1.add(topPanel,BorderLayout.NORTH);
 				createMenuBar(frame_1);

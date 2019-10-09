@@ -11,6 +11,11 @@
         InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
 		
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+	<Property Id="JAVA_CURRENT_VERSION">
+		<RegistrySearch Id="JRE_CURRENT_VERSION_REGSEARCH" Root="HKLM" Key="SOFTWARE\JavaSoft\Java Runtime Environment" Name="CurrentVersion" Type="raw" Win64="yes" />
+	</Property>
+	<Condition Message="Java Runtime Environment (64 Bit) is not installed or outdated. Please install Oracle JRE 1.8 or later."><![CDATA[Installed OR (JAVA_CURRENT_VERSION >= "1.8")]]>
+	</Condition>
 	
 	<Directory Id='TARGETDIR' Name='SourceDir'>
 		<Directory Id='ProgramFilesFolder' Name='PFiles'>
@@ -51,6 +56,21 @@
 				</Directory>	
 			</Directory>	
 		</Directory>	
+		
+		<Component Id='RegistryEntries' Guid='BF2B490C-0612-4166-B170-EA6BD3725718'>
+			<RegistryKey 	Root='HKCR'
+							Key='Directory\Background\shell\EMOC Generator'
+							Action='createAndRemoveOnUninstall'>
+				<RegistryValue Type="string" Value="EMOC Generator"/>
+			</RegistryKey>
+			<RegistryKey 	Root='HKCR'
+							Key='Directory\Background\shell\EMOC Generator\command'
+							Action='createAndRemoveOnUninstall'>
+				<RegistryValue Type="string" Value='"C:\Program Files (x86)\Watson\EMOC Generator\start_eg.bat" "%V"'/>
+	
+			</RegistryKey>
+		</Component>	
+		
 	</Directory>	
 	
 <CustomAction Id='initBat'
@@ -63,11 +83,12 @@
 					
 					
 	<Feature Id='Complete' Level='1'>
-    	<ComponentRef Id='MainJar' />	
+    <ComponentRef Id='MainJar' />	
 	<ComponentRef Id='statupScript' />
 	<ComponentRef Id='initScript' />	
 	<ComponentRef Id='Docs' />	
 	<ComponentRef Id='Config' />
+	<ComponentRef Id='RegistryEntries' />
 	</Feature>
 	
 </Product>

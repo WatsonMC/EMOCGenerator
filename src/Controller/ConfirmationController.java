@@ -16,6 +16,8 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import Model.EGModel;
 import view.EGView;
 
+import javax.swing.*;
+
 public class ConfirmationController implements ActionListener{
 	//Handles confirmatino button press and subsequent copy and replace actions
 	private static EGView view;
@@ -35,13 +37,19 @@ public class ConfirmationController implements ActionListener{
 		//now we have map to pass to docCopy, and also map to pass to edit
 		DocCopy.copyDocs(filePathes);
 		//now files should be copied to new dir
-		editDocuments(filePathes);
+		String message = "Files successfully transferred";
+		try{
+			editDocuments(filePathes);
+		}
+		catch(IOException oie){
+			message = "Transfer failed, error on accessing template source files or target file path";
+		}
+
 		System.out.println("it worked");
-		
+		JOptionPane.showMessageDialog(new JFrame(), message);
 	}
 	
-	public void editDocuments(Map<String,String> filePathes) {
-			try {
+	public void editDocuments(Map<String,String> filePathes) throws  IOException{
 				for(String file: filePathes.values()) {
 					File newFile = new File(file + ".tmp");
 					File oldFile = new File(file);
@@ -63,13 +71,6 @@ public class ConfirmationController implements ActionListener{
 					newFile.renameTo(oldFile);
 				}
 				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	}
 	
 	public static String appendFileToTgtDir(String sourceFileAbsPath, String tgtDir) {
